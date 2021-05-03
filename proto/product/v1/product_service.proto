@@ -1,0 +1,123 @@
+syntax = "proto3";
+
+package product.v1;
+
+option go_package = "onereva.com/fountainhead/product";
+
+// ProductService to search and filter products
+service ProductService {
+  rpc GetCategories (GetCategoriesRequest) returns (GetCategoriesResponse) {
+    option (google.api.http) = {
+      get: "/api/v1/categories"
+    };
+  }
+
+  rpc SearchProducts (SearchProductsRequest) returns (SearchProductsResponse) {
+    option (google.api.http) = {
+      post: "/api/v1/search"
+      body: "*"
+    };
+  }
+}
+
+// GetCategoryRequest
+message GetCategoryRequest {
+  // tenant id, e.g: tenant: chateraise
+  string tenant = 1 [json_name = "tenant", (validate.rules).string = {min_len: 1, max_len: 50}];
+}
+
+// GetCategoriesResponse
+message GetCategoriesResponse {
+  // the list of categories
+  repeated Category data = 1;
+}
+
+// Category
+message Category {
+  uint32 id = 1 [json_name = "id"];
+  string name = 2 [json_name = "name"];
+  uint32 parent_id = 1 [json_name = "parentid"];
+}
+
+message ProductFilter {
+  repeated string category_ids = 1 [json_name = "categoryIds"];
+  // Filter products has price less than or equal. e.g: priceLte=1000000
+  int64 price_lte = 2 [json_name = "priceLte"];
+  // Filter products has price greater than or equal. e.g: priceGte=500000
+  int64 price_gte = 3 [json_name = "priceGte"];
+}
+
+message Pagination {
+  uint32 offset = 1 [json_name = "offset"];
+  uint32 limit = 2 [json_name = "limit"];
+}
+
+// SearchProductsRequest
+message SearchProductsRequest {
+  // tenant id, e.g: tenant: chateraise
+  string tenant = 1 [json_name = "tenant", (validate.rules).string = {min_len: 1, max_len: 50}];
+  
+  // search keyword query=matcha
+  string query = 2 [json_name = "query"];
+
+  // filter products by category id or attribute
+  ProductFilter filter = 3 [json_name = "filter"];
+
+  // pagination
+  Pagination pagination = 4 [json_name = "pagination"];
+}
+
+// SearchProductsResponse
+message SearchProductsResponse {
+  // the list of categories
+  repeated Product data = 1;
+}
+
+message ProductAttributeValue {
+  uint32 id = 1 [json_name = "id"];
+  string name = 2 [json_name = "name"];
+}
+
+message ProductVariantCombination {
+  uint32 id = 1 [json_name = "id"];
+  double price_extra = 2 [json_name = "priceExtra"];
+  ProductAttributeValue attribute_value = 3 [json_name = "attributeValue"];
+}
+
+message ProductVariant {
+  uint32 id = 1 [json_name = "id"];
+  string default_code = 2 [json_name = "defaultCode"];
+  repeated ProductVariantCombination combinations = 3 [json_name = "combinations"];
+}
+
+
+
+message ProductAttribute {
+  uint32 id = 1 [json_name = "id"];
+  string name = 2 [json_name = "name"];
+
+  enum DisplayType {
+    RADIO = 0;
+    SELECT = 1;
+  }
+  DisplayType display_type = 3 [json_name = "displayType"];
+}
+
+message ProductAttributeValue {
+  uint32 id = 1 [json_name = "id"];
+  string name = 2 [json_name = "name"];
+}
+
+message ProductAttributeLine {
+  ProductAttribute attribute = 1 [json_name = "attribute"];
+  repeated ProductAttributeValue values = 2 [json_name = "values"];
+}
+
+message Product {
+  uint32 id = 1 [json_name = "id"];
+  string name = 2 [json_name = "name"];
+  double list_price = 3 [json_name = "listPrice"];
+  repeated Category categories = 5 [json_name = "categories"];
+  repeated ProductVariant variants = 6 [json_name = "variants"];
+  repeated ProductAttributeLine product_attribute_lines = 7 [json_name = "productAttributeLines"];
+}
