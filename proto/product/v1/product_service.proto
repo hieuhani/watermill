@@ -2,7 +2,10 @@ syntax = "proto3";
 
 package product.v1;
 
-option go_package = "onereva.com/fountainhead/product";
+import "google/api/annotations.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/onereva/fountainhead/watermill";
 
 // ProductService to search and filter products
 service ProductService {
@@ -20,8 +23,8 @@ service ProductService {
   }
 }
 
-// GetCategoryRequest
-message GetCategoryRequest {
+// GetCategoriesRequest
+message GetCategoriesRequest {
   // tenant id, e.g: tenant: chateraise
   string tenant = 1 [json_name = "tenant", (validate.rules).string = {min_len: 1, max_len: 50}];
 }
@@ -36,7 +39,7 @@ message GetCategoriesResponse {
 message Category {
   uint32 id = 1 [json_name = "id"];
   string name = 2 [json_name = "name"];
-  uint32 parent_id = 1 [json_name = "parentid"];
+  uint32 parent_id = 3 [json_name = "parentid"];
 }
 
 message ProductFilter {
@@ -90,8 +93,6 @@ message ProductVariant {
   repeated ProductVariantCombination combinations = 3 [json_name = "combinations"];
 }
 
-
-
 message ProductAttribute {
   uint32 id = 1 [json_name = "id"];
   string name = 2 [json_name = "name"];
@@ -101,11 +102,6 @@ message ProductAttribute {
     SELECT = 1;
   }
   DisplayType display_type = 3 [json_name = "displayType"];
-}
-
-message ProductAttributeValue {
-  uint32 id = 1 [json_name = "id"];
-  string name = 2 [json_name = "name"];
 }
 
 message ProductAttributeLine {
