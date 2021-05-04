@@ -5,7 +5,7 @@ package product.v1;
 import "google/api/annotations.proto";
 import "envoyproxy/validate/validate.proto";
 
-option go_package = "github.com/onereva/fountainhead/watermill";
+option go_package = "github.com/onereva/watermill";
 
 // ProductService to search and filter products
 service ProductService {
