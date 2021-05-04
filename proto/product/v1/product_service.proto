@@ -3,7 +3,7 @@ syntax = "proto3";
 package product.v1;
 
 import "google/api/annotations.proto";
-import "validate/validate.proto";
+import "envoyproxy/validate/validate.proto";
 
 option go_package = "github.com/onereva/fountainhead/watermill";
 
