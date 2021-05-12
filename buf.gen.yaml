@@ -10,3 +10,13 @@ plugins:
   - name: grpc-gateway
     out: generated/go
     opt: paths=source_relative
+  - name: js
+    out: generated/nodejs
+    opt: import_style=commonjs,binary
+  - name: grpc-js
+    out: generated/nodejs
+    opt: grpc_js
+    path: grpc_tools_node_protoc_plugin
+  - name: ts
+    out: generated/nodejs
+    opt: grpc_js
