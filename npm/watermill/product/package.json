@@ -1,4 +1,4 @@
 {
-    "description": "Nuxt module to support multi tenancy by subfolder of pages/",
+    "description": "Product messages",
     "main": "index.js"
 }
