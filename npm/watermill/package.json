@@ -1,5 +1,5 @@
 {
-    "name": "@wattermill/product",
+    "name": "@onereva/watermill",
     "version": "0.0.1-alpha.0",
     "description": "Nuxt module to support multi tenancy by subfolder of pages/"
 }
