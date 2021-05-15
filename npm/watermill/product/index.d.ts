@@ -1,0 +1,1 @@
+export * from '../../../generated/nodejs/product/v1/product_service_pb'

@@ -1,0 +1,1 @@
+This package contains message and service that generated from Proto files
